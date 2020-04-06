@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  CurrencyPickerViewController.h
 //  Currency Converter
 //
 //  Created by Luís Lira on 06/04/2020.
@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+NS_ASSUME_NONNULL_BEGIN
 
+@interface CurrencyPickerViewController : UIViewController
 
 @end
 
+NS_ASSUME_NONNULL_END
