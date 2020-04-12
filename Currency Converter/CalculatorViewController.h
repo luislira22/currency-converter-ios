@@ -11,13 +11,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CalculatorViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UILabel *currency1TagLabel;
-@property (weak, nonatomic) IBOutlet UILabel *currency1NameLabel;
-@property (weak, nonatomic) IBOutlet UITextField *currency1TextField;
-
-@property (weak, nonatomic) IBOutlet UILabel *currency2TagLabel;
-@property (weak, nonatomic) IBOutlet UILabel *currency2NameLabel;
-@property (weak, nonatomic) IBOutlet UITextField *currency2TextField;
+@property (strong,nonatomic) NSString *fromCurrency;
+@property (strong,nonatomic) NSString *toCurrency;
+@property (strong,nonatomic) NSArray *keys;
 
 @end
 

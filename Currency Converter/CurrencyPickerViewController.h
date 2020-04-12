@@ -11,6 +11,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CurrencyPickerViewController : UIViewController
+@property (strong, nonatomic) NSDictionary *currenciesRates;
+@property (strong, nonatomic) NSDictionary *currenciesNames;
+@property (strong, nonatomic) NSArray *currenciesKeys;
+@property (strong, nonatomic) NSNumber *returnFlag;
 
 @end
 

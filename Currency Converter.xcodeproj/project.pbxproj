@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		448FC0F1243CE38200353AC3 /* Currency.m in Sources */ = {isa = PBXBuildFile; fileRef = 448FC0F0243CE38200353AC3 /* Currency.m */; };
+		44C284D4243FB37F00A730FA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 44C284D6243FB37F00A730FA /* Localizable.strings */; };
 		44D3A824243B21710080F13E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 44D3A823243B21710080F13E /* AppDelegate.m */; };
 		44D3A827243B21720080F13E /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 44D3A826243B21720080F13E /* SceneDelegate.m */; };
 		44D3A82D243B21720080F13E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44D3A82B243B21720080F13E /* Main.storyboard */; };
@@ -25,6 +27,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		448FC0EF243CE38200353AC3 /* Currency.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Currency.h; sourceTree = "<group>"; };
+		448FC0F0243CE38200353AC3 /* Currency.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Currency.m; sourceTree = "<group>"; };
+		44C284D3243FB31F00A730FA /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Main.strings"; sourceTree = "<group>"; };
+		44C284D5243FB37F00A730FA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		44C284D7243FB38E00A730FA /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		44D3A81F243B21710080F13E /* Currency Converter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Currency Converter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		44D3A822243B21710080F13E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		44D3A823243B21710080F13E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -66,6 +73,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		447ABA7C243ECC3A00318F21 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				44D3A85E243B800E0080F13E /* Constants.h */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		448FC0EE243CE36C00353AC3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				448FC0EF243CE38200353AC3 /* Currency.h */,
+				448FC0F0243CE38200353AC3 /* Currency.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		44D3A816243B21710080F13E = {
 			isa = PBXGroup;
 			children = (
@@ -87,6 +111,8 @@
 		44D3A821243B21710080F13E /* Currency Converter */ = {
 			isa = PBXGroup;
 			children = (
+				447ABA7C243ECC3A00318F21 /* Utils */,
+				448FC0EE243CE36C00353AC3 /* Model */,
 				44D3A863243B8D6B0080F13E /* Currency Selection */,
 				44D3A862243B8D560080F13E /* Rates */,
 				44D3A861243B8D420080F13E /* Converter */,
@@ -100,7 +126,7 @@
 				44D3A836243B21750080F13E /* Info.plist */,
 				44D3A837243B21750080F13E /* main.m */,
 				44D3A82E243B21720080F13E /* Currency_Converter.xcdatamodeld */,
-				44D3A85E243B800E0080F13E /* Constants.h */,
+				44C284D6243FB37F00A730FA /* Localizable.strings */,
 			);
 			path = "Currency Converter";
 			sourceTree = "<group>";
@@ -198,6 +224,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"pt-PT",
 			);
 			mainGroup = 44D3A816243B21710080F13E;
 			productRefGroup = 44D3A820243B21710080F13E /* Products */;
@@ -215,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				44D3A835243B21750080F13E /* LaunchScreen.storyboard in Resources */,
+				44C284D4243FB37F00A730FA /* Localizable.strings in Resources */,
 				44D3A85A243B77890080F13E /* CurrencyTableViewCell.xib in Resources */,
 				44D3A848243B6BCB0080F13E /* RatesTableViewCell.xib in Resources */,
 				44D3A832243B21750080F13E /* Assets.xcassets in Resources */,
@@ -275,6 +303,7 @@
 				44D3A852243B75550080F13E /* CurrencyPickerViewController.m in Sources */,
 				44D3A830243B21720080F13E /* Currency_Converter.xcdatamodeld in Sources */,
 				44D3A843243B24CD0080F13E /* CalculatorViewController.m in Sources */,
+				448FC0F1243CE38200353AC3 /* Currency.m in Sources */,
 				44D3A859243B77890080F13E /* CurrencyTableViewCell.m in Sources */,
 				44D3A824243B21710080F13E /* AppDelegate.m in Sources */,
 				44D3A840243B24BE0080F13E /* RatesViewController.m in Sources */,
@@ -286,10 +315,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		44C284D6243FB37F00A730FA /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				44C284D5243FB37F00A730FA /* en */,
+				44C284D7243FB38E00A730FA /* pt-PT */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		44D3A82B243B21720080F13E /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				44D3A82C243B21720080F13E /* Base */,
+				44C284D3243FB31F00A730FA /* pt-PT */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -309,6 +348,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -367,6 +407,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
