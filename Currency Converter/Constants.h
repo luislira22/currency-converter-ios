@@ -11,9 +11,18 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Constants : NSObject
-
 @end
 
-static CGFloat const rowHeight = 85.0;
+static BOOL const DEBUG_FLAG = NO;
+static NSString * const LATEST_RATES_ENDPOINT = @"/latest";
+static NSString * const CURRENCY_NAME_ENDPOINT = @"/symbols";
+static NSString * const CONVERSION_ENDPOINT = @"/convert";
 
+
+static NSString * const BASE_URL_API = @"http://data.fixer.io/api";
+static NSString * const ACCESS_KEY_API = @"a8c69790793dad335a37bb5e9cfa4233";
+
+static CGFloat const ROW_HEIGHT_RATES = 85.0;
+
+static NSString * const BASE_CURRENCY_EUR = @"EUR";
 NS_ASSUME_NONNULL_END

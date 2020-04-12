@@ -11,10 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface RatesViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UIImageView *currencyImageView;
-@property (weak, nonatomic) IBOutlet UILabel *currencyTagLabel;
-@property (weak, nonatomic) IBOutlet UILabel *currencyName;
-
+@property (strong, nonatomic) NSArray *rateKeys;
 @end
 
 NS_ASSUME_NONNULL_END

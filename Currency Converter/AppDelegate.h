@@ -12,6 +12,10 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (readonly, strong) NSPersistentContainer *persistentContainer;
+@property (strong, nonatomic) NSString *selectedTag;
+@property (strong, nonatomic) NSString *fromCurrency;
+@property (strong, nonatomic) NSString *toCurrency;
+
 
 - (void)saveContext;
 

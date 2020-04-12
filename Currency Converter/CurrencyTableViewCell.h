@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIImageView *currencyImageView;
 @property (weak, nonatomic) IBOutlet UILabel *currencyTagLabel;
 @property (weak, nonatomic) IBOutlet UILabel *currencyNameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *selectedCellImageView;
 
 @end
 
