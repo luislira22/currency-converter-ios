@@ -20,7 +20,7 @@ static NSString * const CONVERSION_ENDPOINT = @"/convert";
 
 
 static NSString * const BASE_URL_API = @"http://data.fixer.io/api";
-static NSString * const ACCESS_KEY_API = @"inster your api key here";
+static NSString * const ACCESS_KEY_API = @"a8c69790793dad335a37bb5e9cfa4233";
 
 static CGFloat const ROW_HEIGHT_RATES = 85.0;
 
