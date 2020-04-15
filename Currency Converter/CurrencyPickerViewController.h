@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSDictionary *currenciesNames;
 @property (strong, nonatomic) NSArray *currenciesKeys;
 @property (strong, nonatomic) NSNumber *returnFlag;
+@property BOOL favoriteFlag;
 
 @end
 

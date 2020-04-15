@@ -112,9 +112,11 @@
     } else{
         key = self.currenciesKeys[indexPath.row];
     }
+    if(self.favoriteFlag==YES){
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:key forKey:@"favorite_base_currency"];
     [userDefaults synchronize];
+    }
     
     switch ([self.returnFlag integerValue]) {
         case 0:

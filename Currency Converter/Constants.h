@@ -25,4 +25,6 @@ static NSString * const ACCESS_KEY_API = @"a8c69790793dad335a37bb5e9cfa4233";
 static CGFloat const ROW_HEIGHT_RATES = 85.0;
 
 static NSString * const BASE_CURRENCY_EUR = @"EUR";
+static NSString * const BASE_CURRENCY_USD = @"USD";
+
 NS_ASSUME_NONNULL_END

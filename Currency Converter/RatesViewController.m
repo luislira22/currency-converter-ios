@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *currencyImageView;
 @property (weak, nonatomic) IBOutlet UILabel *currencyTagLabel;
 @property (weak, nonatomic) IBOutlet UILabel *currencyNameLabel;
+@property (weak, nonatomic) IBOutlet UITapGestureRecognizer *tapGesture;
 
 @property (strong, nonatomic) NSDictionary *ratesResponse;
 @property (strong,nonatomic) NSString *yesterdayDate;
@@ -31,6 +32,7 @@
 @property (strong, nonatomic) NSDictionary *namesResponse;
 @property (strong, nonatomic) NSString *baseCurrency;
 @property (strong, nonatomic) NSString *date;
+@property (strong,nonatomic) NSMutableArray *mutableKeys;
 @property BOOL connectionFlag;
 
 @end
@@ -63,6 +65,7 @@
         [self defineBaseCurrency:self.baseCurrency];
     }
     [self loadData];
+        self.ratesTableView.hidden=NO;
 }
 
 #pragma mark - API
@@ -79,6 +82,8 @@
         [self.loadingActivityIndicator stopAnimating];
         self.currencyListButton.enabled=YES;
         self.ratesTableView.hidden =NO;
+        self.tapGesture.enabled = YES;
+        
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         // NSLog(@"Error: %@", error);
@@ -86,6 +91,7 @@
         [self.loadingActivityIndicator stopAnimating];
         //self.ratesTableView.hidden =YES;
         self.currencyListButton.enabled=NO;
+        self.tapGesture.enabled = NO;
         UIAlertController* alert = [UIAlertController alertControllerWithTitle: NSLocalizedString(@"SERVICE_UNAVAILABLE", @"")
                                                                        message:NSLocalizedString(@"CACHED_RESULTS", @"")
                                                                 preferredStyle:UIAlertControllerStyleAlert];
@@ -117,6 +123,8 @@
         [self.ratesTableView reloadData];
         self.rateKeys = [self.ratesResponse allKeys];
         self.rateKeys = [self.rateKeys sortedArrayUsingSelector:@selector(compare:)];
+        self.mutableKeys = [NSMutableArray arrayWithArray:self.rateKeys];
+        [self.mutableKeys removeObject:self.baseCurrency];
         self.baseCurrencyView.hidden=NO;
         [userDefaults setObject:self.ratesResponse forKey:@"stored_rates"];
         [userDefaults setObject:self.rateKeys forKey:@"stored_keys"];
@@ -156,7 +164,7 @@
     self.yesterdayDate = [self formatDateWithString:yesterdayTS format:dateFormatterSimple];
     NSString *dateEndpoint = @"/";
     dateEndpoint = [dateEndpoint stringByAppendingString:self.yesterdayDate];
-   
+    
     //API call for yesterday's rates
     [self performGETData: dateEndpoint :parameters :^(NSDictionary *output) {
         self.yesterdayRatesResponse = [output objectForKey:@"rates"];
@@ -166,7 +174,7 @@
         self.connectionFlag=NO;
     }];
     self.ratesTableView.hidden=NO;
-
+    
 }
 
 #pragma mark - IBAction
@@ -181,10 +189,16 @@
     vc.currenciesNames = self.namesResponse;
     vc.currenciesKeys = self.rateKeys;
     vc.returnFlag = [NSNumber numberWithInt:0];
+    vc.favoriteFlag = YES;
     
     [self.navigationController pushViewController:vc animated:YES];
     
 }
+
+- (IBAction)baseCurrencyTapped:(id)sender {
+    [self selectBaseCurrencyTapped:sender];
+}
+
 
 #pragma mark - TableView (delegate, dataSource)
 
@@ -197,7 +211,7 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"RateCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
-    NSString *key = self.rateKeys[indexPath.row]; // EUR, USD ex.
+    NSString *key = self.mutableKeys[indexPath.row]; // EUR, USD ex.
     cell.countryImageView.image = [UIImage imageNamed:key];
     cell.currencyBigTagLabel.text = key;
     cell.currencyMiniTagLabel.text = key;
@@ -246,6 +260,9 @@
     Currency *currency = [[Currency alloc]init];
     currency.tag=tag;
     currency.name=[NSString stringWithFormat:@"%@",[self.namesResponse objectForKey:tag]];
+    if([self.baseCurrency isEqual:@"EUR"]){
+        currency.name=@"Euro";
+    }
     currency.image=[UIImage imageNamed:currency.tag];
     self.currencyTagLabel.text = currency.tag;
     self.currencyNameLabel.text = currency.name;

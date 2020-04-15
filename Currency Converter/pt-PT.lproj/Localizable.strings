@@ -9,7 +9,7 @@
 "UNABLE_TO_RETRIEVE_CALCULATOR_VIEW"="Câmbios indisponíveis";
 "NO_CONNECTION"="Falha na ligação";
 "CHECK_CONNECTION"="Verifique a sua ligação e tente novamente.";
-"CACHED_RESULTS"="Mostrando resultados obtidos anteriormente";
+"CACHED_RESULTS"="Se está a usar a app pela primeira vez, precisa de uma conexão activa para mostrar as taxas actuais. Senão pode ver os resultados obtido anteriormente para este câmbio.";
 "SERVICE_UNAVAILABLE"="Serviço indisponível";
 "NOT_ALLOWED"="Erro";
 "SELECT_CURRENCY" ="Selecione dois câmbios para poder calcular a quantia inserida";

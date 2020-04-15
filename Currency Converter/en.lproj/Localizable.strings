@@ -9,7 +9,7 @@
 "UNABLE_TO_RETRIEVE_CALCULATOR_VIEW"="Unable to retrieve currencies";
 "NO_CONNECTION"="No Connection";
 "CHECK_CONNECTION"="Check your internet connection and try again.";
-"CACHED_RESULTS"="Showing cached results for this currency.In order to check other currencies please check your internet connection.";
+"CACHED_RESULTS"="I it is your first time using the app, please check your internet connection to download latest rates. Otherwise you will see cached results for this currency.";
 "SERVICE_UNAVAILABLE"="Service unavailable";
 "NOT_ALLOWED"="Error";
 "SELECT_CURRENCY" ="Please select two currencies to be able to calculate the inserted amount in another currency.";

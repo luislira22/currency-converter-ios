@@ -13,7 +13,7 @@
 #import "Currency.h"
 #import "CurrencyPickerViewController.h"
 
-@interface CalculatorViewController ()
+@interface CalculatorViewController () <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *currency1TagLabel;
 @property (weak, nonatomic) IBOutlet UILabel *currency1NameLabel;
@@ -28,6 +28,7 @@
 
 @property (strong, nonatomic) NSDictionary *rates;
 @property (strong, nonatomic) NSDictionary *names;
+@property (strong,nonatomic) NSMutableArray *mutable;
 
 @property (strong,nonatomic) Currency *from;
 @property (strong,nonatomic) Currency *to;
@@ -36,6 +37,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *currency1Button;
 @property (weak, nonatomic) IBOutlet UIButton *currency2Button;
 @property (weak, nonatomic) IBOutlet UIButton *swapButton;
+@property (weak, nonatomic) IBOutlet UITapGestureRecognizer *tapGesture1;
+@property (weak, nonatomic) IBOutlet UITapGestureRecognizer *tapGesture2;
+@property (weak, nonatomic) IBOutlet UIButton *clearButton;
+
 
 @end
 
@@ -46,33 +51,51 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
     //Set UI elements
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
     [self.currency1TextField setKeyboardType:UIKeyboardTypeDecimalPad];
     [self loadingData];
     
-    [self.currency1NameLabel setText:NSLocalizedString(@"CURRENCY",@"")];
-    [self.currency2NameLabel setText:NSLocalizedString(@"CURRENCY",@"")];
-
+    self.from = [self defineCurrency:BASE_CURRENCY_EUR];
+    self.to = [self defineCurrency:BASE_CURRENCY_USD];
+    [self.from setName:@"Euro"];
+    [self.to setName:@"United States Dollar"];
+    
+    self.currency1TagLabel.text= self.from.tag;
+    self.currency1NameLabel.text= self.from.name;
+    self.currency1ImageView.image = self.from.image;
+    self.currency2TagLabel.text= self.to.tag;
+    self.currency2NameLabel.text= self.to.name;
+    self.currency2ImageView.image = self.to.image;
+    
+    self.currency1TextField.delegate = self;
+    
 }
 
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
+    self.currency1TextField.text=@"";
+    self.currency2TextField.text=@"";
+    
+    [self loadingData];
+    
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    if(delegate.fromCurrency!=nil){
+    if(delegate.fromCurrency!=nil && !([self.currency1TagLabel.text isEqual:delegate.fromCurrency])){
         self.from = [self defineCurrency:delegate.fromCurrency];
         self.currency1TagLabel.text= self.from.tag;
         self.currency1NameLabel.text= self.from.name;
         self.currency1ImageView.image = self.from.image;
     }
-    if(delegate.toCurrency!=nil){
+   if(delegate.toCurrency!=nil && !([self.currency2TagLabel.text isEqual:delegate.toCurrency])){
         self.to = [self defineCurrency:delegate.toCurrency];
         self.currency2TagLabel.text= self.to.tag;
         self.currency2NameLabel.text= self.to.name;
         self.currency2ImageView.image = self.to.image;
     }
 }
+
 
 #pragma mark - API
 
@@ -81,7 +104,7 @@
     AFHTTPSessionManager *manager   = [AFHTTPSessionManager manager];
     [manager.requestSerializer setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     [manager GET:[NSString stringWithFormat:@"%@%@", BASE_URL_API, requestPath] parameters:parameters headers:nil progress:nil
-         
+     
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         // NSLog(@"Reply GET JSON: %@", responseObject);
         [self.activityIndicator stopAnimating];
@@ -105,13 +128,17 @@
         self.rates = [output objectForKey:@"rates"];
         self.keys = [self.rates allKeys];
         self.keys = [self.keys sortedArrayUsingSelector:@selector(compare:)];
+        self.mutable = [NSMutableArray arrayWithArray:self.keys];
+        [self.mutable removeObject:self.from.tag];
+        [self.mutable removeObject:self.to.tag];
         self.calculateButton.enabled=YES;
         self.currency1Button.enabled=YES;
         self.currency2Button.enabled=YES;
         self.swapButton.enabled =YES;
-        self.currency1NameLabel.text = NSLocalizedString(@"CURRENCY", @"");
-        self.currency2NameLabel.text = NSLocalizedString(@"CURRENCY", @"");
-
+        self.tapGesture1.enabled=YES;
+        self.tapGesture2.enabled=YES;
+        
+        
         
         
     } error:^(NSError *error) {
@@ -119,7 +146,10 @@
         self.currency1Button.enabled=NO;
         self.currency2Button.enabled=NO;
         self.swapButton.enabled =NO;
-
+        self.clearButton.enabled =NO;
+        self.tapGesture1.enabled=NO;
+        self.tapGesture2.enabled=NO;
+        
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"SERVICE_UNAVAILABLE", @"")
                                                                        message:NSLocalizedString(@"CHECK_CONNECTION", @"")
                                                                 preferredStyle:UIAlertControllerStyleAlert];
@@ -138,33 +168,64 @@
 
 #pragma mark - IBAction
 
-- (IBAction)refreshDataTapped:(UIButton *)sender {
-    [self loadingData];
+- (IBAction)clearCalculatorTapped:(id)sender {
+    self.from=nil;
+    self.to=nil;
+    self.currency1ImageView.image=nil;
+    self.currency2ImageView.image=nil;
+    self.currency2TagLabel.text=@"";
+    self.currency1TagLabel.text=@"";
+
+    self.currency1TextField.text=@"";
+    self.currency2TextField.text=@"";
+
+    
+    self.currency1NameLabel.text = NSLocalizedString(@"CURRENCY", @"");
+    self.currency2NameLabel.text = NSLocalizedString(@"CURRENCY", @"");
+    
     
 }
+
 - (IBAction)currency1SelectionTapped:(UIButton *)sender {
     CurrencyPickerViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"Currencies"];
     vc.currenciesRates = self.rates;
-    vc.currenciesKeys = self.keys;
+    vc.currenciesKeys = self.mutable;
     vc.currenciesNames = self.names;
     vc.returnFlag = [NSNumber numberWithInt:1];
+    vc.favoriteFlag =NO;
     [self.navigationController pushViewController:vc animated:YES];
+}
+- (IBAction)tapGestureCurrency1:(id)sender {
+    [self currency1SelectionTapped:sender];
 }
 
 - (IBAction)currency2SelectionTapped:(UIButton *)sender {
     CurrencyPickerViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"Currencies"];
     vc.currenciesRates = self.rates;
-    vc.currenciesKeys = self.keys;
+    vc.currenciesKeys = self.mutable;
     vc.currenciesNames = self.names;
     vc.returnFlag = [NSNumber numberWithInt:2];
+    vc.favoriteFlag =NO;
     [self.navigationController pushViewController:vc animated:YES];
+}
+- (IBAction)tapGestureCurrency2:(id)sender {
+    [self currency2SelectionTapped:sender];
+    
 }
 
 - (IBAction)swapCurrenciesTapped:(UIButton *)sender {
-    Currency *temp;
+    Currency *temp = [[Currency alloc]init];
     temp =self.from;
     self.from=self.to;
     self.to=temp;
+    
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+
+    NSString *tempString = [NSString string];
+    tempString = delegate.fromCurrency;
+    delegate.fromCurrency=delegate.toCurrency;
+    delegate.toCurrency = tempString;
+    
     
     
     self.currency1TagLabel.text= self.from.tag;
@@ -192,7 +253,17 @@
 }
 
 - (IBAction)calculateValueTapped:(UIButton *)sender {
-    [self performConversion];
+    if(self.currency1ImageView.image!=nil && self.currency2ImageView.image!=nil){
+        [self performConversion];
+    } else{
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"NOT_ALLOWED", @"")
+                                                                       message:NSLocalizedString(@"SELECT_CURRENCY", @"")
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
 }
 
 #pragma mark - Auxiliar
@@ -224,6 +295,17 @@
 
 -(void)dismissKeyboard{
     [self.currency1TextField resignFirstResponder];
+}
+
+#pragma mark - TextField
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+   NSRange temprange = [textField.text rangeOfString:@"."];
+
+    if ((temprange.location != NSNotFound) && [string isEqualToString:@"."])
+    {
+        return NO;
+    }
+    return YES;
 }
 
 @end
