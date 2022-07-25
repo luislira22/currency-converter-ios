@@ -6,7 +6,7 @@
 
 ### 168 currencies updated each 30 minutes
 ![List](<./Currency Converter/Screenshots/list.png>)
-![List](<./Screenshots/listD.png>)
+![List](<./Currency Converter/Screenshots/listD.png>)
 
 ### Fluctuation and variation for each currency considering the day before
 ![List](<./Currency Converter/Screenshots/rates.png>)
